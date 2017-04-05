@@ -1,0 +1,6 @@
+<%= form_for @restaurants do |f| %>
+<%= f.label :name %>
+<%= f.text_field :name %>
+<!-- <%= f.submit %> -->
+<%= content_tag(:button, "Create restaurant", :type=>:submit)%>
+<% end %>
