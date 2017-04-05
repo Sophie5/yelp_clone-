@@ -20,12 +20,35 @@ feature 'restaurants' do
   end
   context ' creating a restaurant' do
     scenario 'prompts the user to fill in the form and then displays the restaurant' do
-    visit '/restaurants'
-    click_link 'Add a restaurant'
-    fill_in 'Name', with: 'KFC'
-    click_button 'Create restaurant'
-    expect(page).to have_content('KFC')
-    expect(current_path).to eq '/restaurants'
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+      expect(page).to have_content('KFC')
+      expect(current_path).to eq '/restaurants'
+    end
   end
-end 
+  context 'view restaurants' do
+    let!(:kfc){Restaurant.create(name: 'KFC')}
+    scenario 'lets the user go to the specifc restaurants page' do
+      visit '/restaurants'
+      click_link 'KFC'
+      expect(page).to have_content('KFC')
+      expect(current_path). to eq "/restaurants/#{kfc.id}"
+
+    end
+  end
+  context 'editing restaurants' do
+      let!(:kfc){Restaurant.create(name: 'KFC')}
+    scenario 'allows the user to edit information about the restaurant' do
+      visit '/restaurants'
+      click_link 'Edit KFC'
+      fill_in 'Name', with: 'Nando'
+      fill_in 'Description', with: 'Tasty chicken'
+      click_button 'Update'
+      expect(page).to have_content('Nando')
+      expect(current_path).to eq '/restaurants'
+    end
+  end
+
 end
