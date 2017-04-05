@@ -51,4 +51,15 @@ feature 'restaurants' do
     end
   end
 
+  context 'deleting restaurants' do
+    let!(:kfc){Restaurant.create(name: 'Absurb Bird')}
+    scenario 'allows the user to delete a restaurant' do
+      visit '/restaurants'
+      click_link 'Delete Absurb Bird'
+      expect(page).not_to have_content("Absurb Bird")
+      expect(page).to have_content('Restaurant deleted successfully!')
+      expect(current_path).to eq '/restaurants'
+    end
+  end
+
 end
