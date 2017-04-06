@@ -35,4 +35,24 @@ feature "User can sign in and out" do
       expect(page).not_to have_link('Sign up')
     end
   end
+  context ' creating a restaurant' do
+    scenario 'user can not create a restaurant without logging in' do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      expect(page).to have_content('Log in ')
+      expect(current_path).to eq '/users/sign_in'
+    end
+  end
+  context ' editing or deleting a restaurant' do
+   scenario ' user can only edit restaurants which the user created' do
+     sign_up_user
+     click_link 'Add a restaurant'
+     fill_in 'Name', with: 'KFC'
+     click_button 'Create Restaurant'
+     click_link 'Sign out'
+     sign_up_another_user
+     click_link 'Edit KFC'
+     expect(page).to have_content("You are unable to edit this")
+   end
+  end
 end
