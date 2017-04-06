@@ -20,6 +20,8 @@ feature 'restaurants' do
   end
   context ' creating a restaurant' do
     scenario 'prompts the user to fill in the form and then displays the restaurant' do
+      visit('/')
+      sign_up_user
       visit '/restaurants'
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'KFC'
@@ -30,6 +32,7 @@ feature 'restaurants' do
 
     context 'an invalid restaurant' do
       scenario 'does not let you submit a name that is too short' do
+        sign_up_user
         visit '/restaurants'
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
@@ -53,6 +56,7 @@ feature 'restaurants' do
   context 'editing restaurants' do
       let!(:kfc){Restaurant.create(name: 'KFC')}
     scenario 'allows the user to edit information about the restaurant' do
+      sign_up_user
       visit '/restaurants'
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Nando'
@@ -66,6 +70,7 @@ feature 'restaurants' do
   context 'deleting restaurants' do
     let!(:kfc){Restaurant.create(name: 'Absurb Bird')}
     scenario 'allows the user to delete a restaurant' do
+      sign_up_user
       visit '/restaurants'
       click_link 'Delete Absurb Bird'
       expect(page).not_to have_content("Absurb Bird")

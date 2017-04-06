@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-
+ before_action :authenticate_user!, :except => [:index, :show]
   def index
   @restaurants = Restaurant.all
   end
@@ -21,7 +21,7 @@ class RestaurantsController < ApplicationController
   @restaurants = Restaurant.find(params[:id])
  end
 
- def edit
+ def edit 
    @restaurant = Restaurant.find(params[:id])
  end
 
